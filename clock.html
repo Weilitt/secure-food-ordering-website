@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+   <meta charset="utf-8">
+   <title>Digital Clock with Glowing Effect and Navigation Menu</title>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:600&display=swap">
+   <style>
+      /* Combined CSS */
+      * {
+         margin: 0;
+         padding: 0;
+         list-style: none;
+         text-decoration: none;
+         box-sizing: border-box;
+      }
+      body {
+         font-family: 'Montserrat', sans-serif;
+         background: #FFFFFF;
+         height: 100vh;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+      }
+      .wrapper {
+         height: 150px;
+         width: 360px;
+         position: relative;
+         background: linear-gradient(135deg, #efff14, #b43bff, #ff0000);
+         border-radius: 10px;
+         cursor: default;
+         animation: animate 1.5s linear infinite;
+         z-index: 2;
+      }
+      .wrapper .display, .wrapper span {
+         position: absolute;
+         top: 50%;
+         left: 50%;
+         transform: translate(-50%, -50%);
+      }
+      .wrapper .display {
+         z-index: 999;
+         height: 135px;
+         width: 345px;
+         background: #0000;
+         border-radius: 6px;
+         text-align: center;
+      }
+      .display #time {
+         line-height: 85px;
+         color: #fff;
+         font-size: 50px;
+         font-weight: 600;
+         letter-spacing: 1px;
+         background: linear-gradient(135deg, #14ffe9, #ffeb3b, #ff00e0);
+         -webkit-background-clip: text;
+         -webkit-text-fill-color: transparent;
+         animation: animate 1.5s linear infinite;
+      }
+      .display #status {
+         color: #fff;
+         font-size: 20px;
+         font-weight: 500;
+         margin-top: 10px;
+      }
+      @keyframes animate {
+         100% {
+            filter: hue-rotate(360deg);
+         }
+      }
+      .wrapper span {
+         height: 100%;
+         width: 100%;
+         border-radius: 10px;
+         background: inherit;
+      }
+      .wrapper span:first-child {
+         filter: blur(7px);
+      }
+      .wrapper span:last-child {
+         filter: blur(20px);
+      }
+      nav {
+         position: fixed;
+         width: 70px;
+         top: 50%;
+         left: 0;
+         transform: translateY(-50%);
+         transition: all 0.3s linear;
+         box-shadow: 2px 2px 8px 0px rgba(0,0,0,.4);
+         z-index: 1;
+      }
+      nav li {
+         height: 60px;
+         position: relative;
+      }
+      nav li a {
+         color: white;
+         display: block;
+         height: 100%;
+         width: 100%;
+         line-height: 60px;
+         padding-left: 25%;
+         border-bottom: 1px solid rgba(0,0,0,.4);
+         transition: all .3s linear;
+      }
+      nav li:nth-child(1) a {
+         background: #4267B2;
+      }
+      nav li:nth-child(2) a {
+         background: #1DA1F2;
+      }
+      nav li:nth-child(3) a {
+         background: #E1306C;
+      }
+      nav li:nth-child(4) a {
+         background: #000000;
+      }
+      nav li:nth-child(5) a {
+         background: #333;
+      }
+      nav li:nth-child(6) a {
+         background: #ff0000;
+      }
+      nav li a i {
+         position: absolute;
+         top: 17px;
+         left: 20px;
+         font-size: 27px;
+      }
+      ul li a span {
+         display: none;
+         font-weight: bold;
+         letter-spacing: 1px;
+         text-transform: uppercase;
+      }
+      a:hover {
+         z-index: 1;
+         width: 200px;
+         border-bottom: 1px solid rgba(0,0,0,.5);
+         box-shadow: 0 0 1px 1px rgba(0,0,0,.3);
+      }
+      ul li:hover a span {
+         padding-left: 30%;
+         display: block;
+      }
+   </style>
+</head>
+<body>
+   <nav>
+      <ul>
+         <li><a href="#"><i class="fab fa-facebook-f"></i><span>Facebook</span></a></li>
+         <li><a href="#"><i class="fab fa-twitter"></i><span>Twitter</span></a></li>
+         <li><a href="#"><i class="fab fa-instagram"></i><span>Instagram</span></a></li>
+         <li><a href="#"><i class="fab fa-tiktok"></i><span>Tiktok</span></a></li>
+         <li><a href="#"><i class="fab fa-github"></i><span>Github</span></a></li>
+         <li><a href="#"><i class="fab fa-youtube"></i><span>Youtube</span></a></li>
+      </ul>
+   </nav>
+   <div class="wrapper">
+      <div class="display">
+         <div id="time"></div>
+         <div id="status"></div>
+      </div>
+      <span></span>
+      <span></span>
+   </div>
+   <script>
+      setInterval(() => {
+         const time = document.querySelector(".display #time");
+         const status = document.querySelector(".display #status");
+         let date = new Date();
+         let hours = date.getHours();
+         let minutes = date.getMinutes();
+         let seconds = date.getSeconds();
+         let day_night = "AM";
+         if (hours >= 12) {
+            day_night = "PM";
+            if (hours > 12) hours = hours - 12;
+         }
+         if (seconds < 10) {
+            seconds = "0" + seconds;
+         }
+         if (minutes < 10) {
+            minutes = "0" + minutes;
+         }
+         if (hours < 10) {
+            hours = "0" + hours;
+         }
+         time.textContent = hours + ":" + minutes + ":" + seconds + " " + day_night;
+
+         let fullHours = date.getHours() * 100 + date.getMinutes();
+         if (fullHours >= 800 && fullHours <= 2310) {
+            status.innerHTML = "<a href='home.php' style='color: white; text-decoration: none;'>Welcome, we're open! (click it)</a>";
+         } else {
+            status.textContent = "Sorry, now we are closed";
+         }
+      }, 1000);
+   </script>
+</body>
+</html>
